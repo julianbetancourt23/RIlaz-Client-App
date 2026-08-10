@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel IT · Rilaz Clientes</title>
+  <link rel="stylesheet" href="panel_it.css">
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-brand">RILAZ</div>
+    <div class="login-sub">Panel · App de Clientes</div>
+    <input type="password" id="login-password" class="login-input" placeholder="Contraseña" autocomplete="current-password">
+    <button class="login-btn" id="login-btn">Ingresar</button>
+    <div class="login-error" id="login-error"></div>
+  </div>
+</div>
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="brand">RILAZ</div>
+    <div class="sub">Panel Clientes</div>
+  </div>
+  <nav class="nav">
+    <div class="nav-item active" data-section="dashboard"><span class="icon">▦</span><span class="label">Dashboard</span></div>
+    <div class="nav-item" data-section="pedidos"><span class="icon">▤</span><span class="label">Pedidos</span></div>
+    <div class="nav-item" data-section="servicios"><span class="icon">🛠</span><span class="label">Servicios</span></div>
+    <div class="nav-item" data-section="clientes"><span class="icon">👥</span><span class="label">Clientes</span></div>
+    <div class="nav-item" data-section="catalogo"><span class="icon">▧</span><span class="label">Catálogo</span></div>
+  </nav>
+  <div class="sidebar-footer">v0.1.0 · RILAZ CLIENTES MW</div>
+</aside>
+
+<!-- ── MAIN ── -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title" id="topbar-title">Dashboard</div>
+    <div class="topbar-right">
+      <span class="mode-badge" id="mode-badge">MOCK</span>
+      <span class="status-dot"></span>
+      <span class="status-label" id="status-label">conectado</span>
+      <button class="theme-toggle" id="theme-toggle" title="Cambiar tema">☀</button>
+      <button class="btn-logout" id="btn-logout">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <section class="section active" id="section-dashboard">
+      <div class="page-header">
+        <div>
+          <h1>Dashboard</h1>
+          <p>Resumen de la actividad de la app de clientes — datos simulados (modo mock).</p>
+        </div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card blue" data-goto="clientes"><div class="stat-label">Clientes activos</div><div class="stat-value" id="stat-clientes">—</div></div>
+        <div class="stat-card accent" data-goto="pedidos"><div class="stat-label">Pedidos de insumos</div><div class="stat-value" id="stat-pedidos">—</div></div>
+        <div class="stat-card orange" data-goto="servicios"><div class="stat-label">Servicios · Cotizaciones</div><div class="stat-value" id="stat-servicios">—</div></div>
+        <div class="stat-card green"><div class="stat-label">Sin procesar</div><div class="stat-value" id="stat-nuevos">—</div></div>
+      </div>
+      <div class="table-container">
+        <div class="table-header">
+          <h3>Solicitudes recientes</h3>
+          <div class="table-actions"><button class="btn btn-secondary btn-sm" id="btn-refresh-dash">Actualizar</button></div>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Folio</th><th>Tipo</th><th>Cliente</th><th>Fecha</th><th>Estado</th></tr></thead>
+            <tbody id="tbody-dash"><tr><td colspan="5"><div class="loading"><div class="spinner"></div>Cargando…</div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- PEDIDOS -->
+    <section class="section" id="section-pedidos">
+      <div class="page-header">
+        <div>
+          <h1>Pedidos de insumos</h1>
+          <p>Solicitudes de tóner, papel y otros creadas desde la app. En producción serán Sales Orders en SAP.</p>
+        </div>
+      </div>
+      <div class="filter-bar" id="filter-pedidos">
+        <button class="filter-btn active" data-status="">Todos</button>
+        <button class="filter-btn" data-status="nuevo">Nuevos</button>
+        <button class="filter-btn" data-status="procesado">Procesados</button>
+      </div>
+      <div class="table-container">
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Folio</th><th>Cliente</th><th>Artículos</th><th>Total</th><th>Fecha</th><th>Estado</th><th></th></tr></thead>
+            <tbody id="tbody-pedidos"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICIOS -->
+    <section class="section" id="section-servicios">
+      <div class="page-header">
+        <div>
+          <h1>Servicios y cotizaciones</h1>
+          <p>Solicitudes de mantenimiento (Service Calls) y cotizaciones de equipos (Activities) desde la app.</p>
+        </div>
+      </div>
+      <div class="filter-bar" id="filter-servicios">
+        <button class="filter-btn active" data-kind="">Todos</button>
+        <button class="filter-btn" data-kind="sv">Mantenimiento</button>
+        <button class="filter-btn" data-kind="ct">Cotizaciones</button>
+      </div>
+      <div class="table-container">
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Folio</th><th>Tipo</th><th>Cliente</th><th>Detalle</th><th>Servicio</th><th>Fecha</th><th>Estado</th><th></th></tr></thead>
+            <tbody id="tbody-servicios"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- CLIENTES -->
+    <section class="section" id="section-clientes">
+      <div class="page-header">
+        <div>
+          <h1>Gestión de clientes</h1>
+          <p>Cuentas de la app y su CardCode de SAP. La contraseña demo de los clientes sembrados es 000000.</p>
+        </div>
+        <button class="btn btn-primary" id="btn-new-customer">+ Nuevo cliente</button>
+      </div>
+      <div class="table-container">
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Empresa</th><th>Contacto</th><th>Correo</th><th>CardCode</th><th>Último acceso</th><th>Estado</th><th>Acciones</th></tr></thead>
+            <tbody id="tbody-clientes"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATÁLOGO -->
+    <section class="section" id="section-catalogo">
+      <div class="page-header">
+        <div>
+          <h1>Catálogo de insumos</h1>
+          <p>Lo que ve el cliente en la app. Apaga el stock de un artículo para simular agotado (en producción viene de SAP).</p>
+        </div>
+      </div>
+      <div class="filter-bar" id="filter-catalogo">
+        <button class="filter-btn active" data-cat="">Todo</button>
+        <button class="filter-btn" data-cat="toner">Tóner</button>
+        <button class="filter-btn" data-cat="paper">Papel</button>
+        <button class="filter-btn" data-cat="otros">Otros</button>
+      </div>
+      <div class="table-container">
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>SKU</th><th>Artículo</th><th>Detalle</th><th>Unidad</th><th>Precio</th><th>En stock</th></tr></thead>
+            <tbody id="tbody-catalogo"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<!-- ── MODAL: detalle de documento ── -->
+<div class="modal-overlay" id="modal-detail">
+  <div class="modal">
+    <h2 id="detail-title"></h2>
+    <div id="detail-body"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" data-close="modal-detail">Cerrar</button>
+      <button class="btn btn-success" id="btn-toggle-status"></button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL: nuevo cliente ── -->
+<div class="modal-overlay" id="modal-customer">
+  <div class="modal modal-form">
+    <h2>Nuevo cliente</h2>
+    <label>Empresa</label><input id="nc-company" placeholder="Distribuidora El Roble">
+    <label>Nombre de contacto</label><input id="nc-name" placeholder="Nombre y apellido">
+    <label>Correo (login de la app)</label><input id="nc-email" type="email" placeholder="compras@empresa.sv">
+    <label>Teléfono (opcional — autollenado en la app)</label><input id="nc-phone" placeholder="2222-3333">
+    <label>CardCode SAP</label><input id="nc-cardcode" placeholder="C40000 (mock por ahora)">
+    <label>Contraseña inicial</label><input id="nc-password" type="text" placeholder="mínimo 6 caracteres">
+    <div class="form-error" id="nc-error"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" data-close="modal-customer">Cancelar</button>
+      <button class="btn btn-primary" id="btn-save-customer">Crear cliente</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL: restablecer contraseña ── -->
+<div class="modal-overlay" id="modal-password">
+  <div class="modal modal-form">
+    <h2 id="pw-title">Restablecer contraseña</h2>
+    <label>Nueva contraseña</label><input id="pw-value" type="text" placeholder="mínimo 6 caracteres">
+    <div class="form-error" id="pw-error"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" data-close="modal-password">Cancelar</button>
+      <button class="btn btn-primary" id="btn-save-password">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toasts"></div>
+
+<script src="panel_it.js"></script>
+</body>
+</html>

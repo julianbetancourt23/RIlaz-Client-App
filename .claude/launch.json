@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "middleware",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "middleware-api", "run", "dev"],
+      "port": 3001
+    },
+    {
+      "name": "app-web",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "Source", "run", "web"],
+      "port": 8081
+    }
+  ]
+}
